@@ -31,6 +31,7 @@ public class Motor_Test extends OpMode {
         }
     }
     public void loop() {
+
         hwMotorDriveFrontLeft.setPower(1);
         sleepSec(1);
         hwMotorDriveFrontRight.setPower(1);
@@ -44,6 +45,7 @@ public class Motor_Test extends OpMode {
         hwMotorDriveBackLeft.setPower(0);
         hwMotorDriveBackRight.setPower(0);
         sleepSec(10);
+
     }
 
 }
