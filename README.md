@@ -7,7 +7,6 @@ This GitHub repository contains the source code that is used to build an Android
 
 ## Requirements
 To use this Android Studio project, you will need Android Studio 2021.2 (codename Chipmunk) or later.
-You will also need all the parts, which reside in following Onshape document: https://cad.onshape.com/documents/899beb2896fd4c74627132d8/w/9ad4ccae9838051736501f06/e/427a60bba9fc7b19c493f38e?renderMode=0&uiState=67b63fc7cf4dc4762e254e49
 
 
 
