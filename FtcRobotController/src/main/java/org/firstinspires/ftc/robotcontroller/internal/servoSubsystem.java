@@ -1,22 +1,34 @@
 package org.firstinspires.ftc.robotcontroller.internal;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import org.firstinspires.ftc.robotcontroller.internal.Config;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class servoSubsystem {
     private static ElapsedTime runtime = new ElapsedTime();;
-
     private long squirtMillis = 0;
     private Config config = new Config();
+    private Servo trigger;
+
+    public servoSubsystem(HardwareMap hardwareMap){
+        config = new Config();
+        trigger = hardwareMap.get(Servo.class, config.triggerServoName);
+    }
 
     public enum Triggerstate{
         SQUIRT, RELEASE, CUSTOM
     }
+    public servoSubsystem(){
+
+    }
     private Triggerstate state;
-    private Servo trigger;
+
     public void init(){
         trigger.resetDeviceConfigurationForOpMode();
-        release();
+        //release();
     }
     //returns the current state of the trigger
     public Triggerstate getState(){
@@ -42,7 +54,7 @@ public class servoSubsystem {
     }
     //
     public long getTankPercentage(){
-        long returnValue = 100*(config.squirtGunFullToEmpty - squirtMillis);
+        long returnValue = ((config.squirtGunFullToEmpty - squirtMillis)/300);
         if(returnValue <= 0){
             returnValue = 0;
         }
@@ -50,21 +62,17 @@ public class servoSubsystem {
     }
 
 
-    /**
-     * Shoots and releases the squirtgun trigger
-     * Squirtgun shoots water continuously
-     * @param millis how long the shot should be
-     */
+    //
+     // Shoots and releases the squirtgun trigger
+     //Squirtgun shoots water continuously
+     //@param millis how long the shot should be
+     //
     public void squirt_and_release(long millis){
         long addToCount = 0;
         squirt();
         runtime.reset();
         while(runtime.milliseconds() < millis){
             addToCount = (long)runtime.milliseconds();
-        }
-        if(runtime.milliseconds() > millis){
-            release();
-            squirtMillis += addToCount;
         }
     }
     //sets the trigger servo to a custom (double) value

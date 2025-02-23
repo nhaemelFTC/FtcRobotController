@@ -12,10 +12,12 @@ public class TurretTest extends OpMode {
     Gamepad previousGamepad2 = new Gamepad();
     public boolean ticksIsTrue;
     //subsystems
-    public turretSubsystem turret = new turretSubsystem();
-    public servoSubsystem trigger = new servoSubsystem();
+    public turretSubsystem turret;
+    public servoSubsystem trigger;
     @Override
     public void init() {
+        turret = new turretSubsystem(hardwareMap);
+        trigger  = new servoSubsystem(hardwareMap);
         turret.init();
         trigger.init();
         ticksIsTrue = true;
@@ -26,22 +28,26 @@ public class TurretTest extends OpMode {
         previousGamepad2.copy(currentGamepad2);
         currentGamepad1.copy(gamepad1);
         currentGamepad2.copy(gamepad2);
-        telemetry.addData("degrees:",turret.getDegrees());
+        telemetry.addData("degrees:",(int) turret.getDegrees());
         telemetry.addData("ticks:",turret.getPosition());
         telemetry.addData("Run Using Ticks" , ticksIsTrue);
         telemetry.addData("trigger state", trigger.getState());
         telemetry.addData("Water", trigger.getTankPercentage() + "%");
+        telemetry.addData("Power", turret.getPower());
         telemetry.update();
+        turret.update();
         if(currentGamepad1.a && !previousGamepad1.a && ticksIsTrue){
             ticksIsTrue = false;
         } else if(currentGamepad1.a && !previousGamepad1.a && !ticksIsTrue){
             ticksIsTrue = true;
         }
         if(currentGamepad1.dpad_up && !previousGamepad1.dpad_up){
-            turret.runToDegrees((int)turret.getDegrees() + 15);
+            turret.runToDegrees((int)turret.getDegrees()-90);
+            turret.update();
         }
         if(currentGamepad1.dpad_down && !previousGamepad1.dpad_down){
-            turret.runToDegrees((int)turret.getDegrees() -15);
+            turret.runToDegrees((int)turret.getDegrees()+90);
+            turret.update();
         }
         if(currentGamepad1.left_bumper && !previousGamepad1.left_bumper){
             if(trigger.getState() == servoSubsystem.Triggerstate.RELEASE){
